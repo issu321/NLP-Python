@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detector | NLP-Python by Ussu</title>
+    <meta name="description" content="Advanced NLP-based Fake News Detection System">
+    <meta name="author" content="Ussu">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+<body>
+    <!-- Custom Cursor -->
+    <div class="cursor-dot"></div>
+    <div class="cursor-outline"></div>
+
+    <!-- Background Canvas -->
+    <canvas id="bgCanvas"></canvas>
+    <div class="glass-overlay"></div>
+
+    <!-- Navigation -->
+    <nav class="main-nav" id="mainNav">
+        <div class="nav-brand">
+            <div class="brand-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+            </div>
+            <span class="brand-text">NLP<span class="brand-accent">-Detector</span></span>
+        </div>
+        <div class="nav-links" id="navLinks">
+            <a href="#" class="nav-link active" data-page="0">Home</a>
+            <a href="#" class="nav-link" data-page="1">Features</a>
+            <a href="#" class="nav-link" data-page="2">Models</a>
+            <a href="#" class="nav-link" data-page="3">Live Demo</a>
+            <a href="#" class="nav-link" data-page="4">Metrics</a>
+            <a href="#" class="nav-link" data-page="5">About</a>
+        </div>
+        <div class="nav-actions">
+            <a href="https://github.com/issu321/NLP-Python" target="_blank" class="nav-btn glass-btn">
+                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                <span>Star</span>
+            </a>
+            <button class="hamburger" id="hamburger" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="#" class="mobile-link active" data-page="0">Home</a>
+        <a href="#" class="mobile-link" data-page="1">Features</a>
+        <a href="#" class="mobile-link" data-page="2">Models</a>
+        <a href="#" class="mobile-link" data-page="3">Live Demo</a>
+        <a href="#" class="mobile-link" data-page="4">Metrics</a>
+        <a href="#" class="mobile-link" data-page="5">About</a>
+    </div>
+
+    <!-- Page Container -->
+    <main class="page-container" id="pageContainer">
+
+        <!-- PAGE 0: HOME -->
+        <div class="page active" id="page-0">
+            <section class="section-home">
+                <div class="hero-content">
+                    <div class="hero-badge glass-pill">
+                        <span class="pulse-dot"></span>
+                        <span>v5.0.0 Visual Enhanced</span>
+                    </div>
+                    <h1 class="hero-title">
+                        <span class="title-line">Detect Fake News</span>
+                        <span class="title-line accent">With AI Precision</span>
+                    </h1>
+                    <p class="hero-desc">
+                        Advanced NLP-based system classifying news articles as <strong>Fake</strong> or <strong>Genuine</strong>
+                        using ensemble machine learning. Built with Python, powered by 4 robust ML models and 18+ linguistic features.
+                    </p>
+                    <div class="hero-actions">
+                        <button class="btn btn-primary glass-btn-glow" onclick="goToPage(3)">
+                            <span>Try Live Demo</span>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                        </button>
+                        <a href="https://github.com/issu321/NLP-Python" target="_blank" class="btn btn-secondary glass-btn">
+                            <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                            <span>View on GitHub</span>
+                        </a>
+                    </div>
+                    <div class="hero-stats">
+                        <div class="stat-card glass-card">
+                            <div class="stat-num" data-target="4">0</div>
+                            <div class="stat-label">ML Models</div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-num" data-target="18">0</div>
+                            <div class="stat-label">Linguistic Features</div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-num" data-target="99">0</div>
+                            <div class="stat-label">% Accuracy</div>
+                        </div>
+                        <div class="stat-card glass-card">
+                            <div class="stat-num" data-target="5000">0</div>
+                            <div class="stat-label">TF-IDF Features</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-visual">
+                    <div class="floating-card glass-card-strong" id="floatCard1">
+                        <div class="fc-header">
+                            <div class="fc-dots"><span></span><span></span><span></span></div>
+                            <span class="fc-title">Analysis Engine</span>
+                        </div>
+                        <div class="fc-body">
+                            <div class="fc-row"><span class="fc-label">Status</span><span class="fc-value success">Active</span></div>
+                            <div class="fc-row"><span class="fc-label">Model</span><span class="fc-value">Ensemble</span></div>
+                            <div class="fc-row"><span class="fc-label">Confidence</span><span class="fc-value accent">94.2%</span></div>
+                            <div class="fc-progress"><div class="fc-bar" style="width:94%"></div></div>
+                        </div>
+                    </div>
+                    <div class="floating-card glass-card-strong" id="floatCard2">
+                        <div class="fc-header">
+                            <div class="fc-dots"><span></span><span></span><span></span></div>
+                            <span class="fc-title">TF-IDF Vectorizer</span>
+                        </div>
+                        <div class="fc-body">
+                            <div class="fc-tag">N-grams (1-2)</div>
+                            <div class="fc-tag">5000 features</div>
+                            <div class="fc-tag">sublinear_tf</div>
+                            <div class="fc-tag">english stopwords</div>
+                        </div>
+                    </div>
+                    <div class="floating-card glass-card-strong" id="floatCard3">
+                        <div class="fc-header">
+                            <div class="fc-dots"><span></span><span></span><span></span></div>
+                            <span class="fc-title">Sentiment Score</span>
+                        </div>
+                        <div class="fc-body">
+                            <div class="fc-metric"><span class="fc-metric-label">Polarity</span><span class="fc-metric-val">-0.42</span></div>
+                            <div class="fc-metric"><span class="fc-metric-label">Subjectivity</span><span class="fc-metric-val">0.78</span></div>
+                            <div class="fc-metric"><span class="fc-metric-label">Sensational</span><span class="fc-metric-val warn">HIGH</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PAGE 1: FEATURES -->
+        <div class="page" id="page-1">
+            <section class="section-features">
+                <div class="section-header">
+                    <span class="section-tag glass-pill">Capabilities</span>
+                    <h2 class="section-title">Powerful <span class="accent">Features</span></h2>
+                    <p class="section-subtitle">Everything you need for robust fake news detection</p>
+                </div>
+                <div class="features-grid">
+                    <div class="feature-card glass-card" data-tilt>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg></div>
+                        <h3>Advanced Preprocessing</h3>
+                        <p>URL removal, punctuation stripping, lowercasing, whitespace normalization, and email filtering for clean text input.</p>
+                        <div class="feature-glow"></div>
+                    </div>
+                    <div class="feature-card glass-card" data-tilt>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2a10 10 0 100 20 10 10 0 000-20z"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg></div>
+                        <h3>TF-IDF Vectorization</h3>
+                        <p>N-gram range (1-2), 5000 max features, sublinear TF scaling, and English stopword removal for optimal vector representation.</p>
+                        <div class="feature-glow"></div>
+                    </div>
+                    <div class="feature-card glass-card" data-tilt>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/><path d="M9 9h6M9 13h4"/></svg></div>
+                        <h3>Sentiment Analysis</h3>
+                        <p>Built-in linguistic analyzer with polarity, subjectivity, emotional triggers, credibility markers, and sensationalism scoring.</p>
+                        <div class="feature-glow"></div>
+                    </div>
+                    <div class="feature-card glass-card" data-tilt>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+                        <h3>4 ML Models</h3>
+                        <p>Logistic Regression, Random Forest, Support Vector Machine, and Gradient Boosting — all with class balancing and cross-validation.</p>
+                        <div class="feature-glow"></div>
+                    </div>
+                    <div class="feature-card glass-card" data-tilt>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg></div>
+                        <h3>Ensemble Consensus</h3>
+                        <p>Majority voting across all models with confidence scoring, risk assessment levels, and detailed per-model breakdowns.</p>
+                        <div class="feature-glow"></div>
+                    </div>
+                    <div class="feature-card glass-card" data-tilt>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></div>
+                        <h3>Rich Metrics</h3>
+                        <p>Accuracy, Precision, Recall, F1-Score, ROC-AUC, Confusion Matrices, and 3-Fold Cross-Validation for robust evaluation.</p>
+                        <div class="feature-glow"></div>
+                    </div>
+                    <div class="feature-card glass-card" data-tilt>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4M17 8l-5-5-5 5M12 3v12"/></svg></div>
+                        <h3>Model Persistence</h3>
+                        <p>Save and load trained model bundles with Pickle. Export complete pipelines including vectorizer, scaler, and all classifiers.</p>
+                        <div class="feature-glow"></div>
+                    </div>
+                    <div class="feature-card glass-card" data-tilt>
+                        <div class="feature-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 15s1-1 4-1 5 2 8 2 4-1 4-1V3s-1 1-4 1-5-2-8-2-4 1-4 1z"/><line x1="4" y1="22" x2="4" y2="15"/></svg></div>
+                        <h3>Batch Processing</h3>
+                        <p>Analyze entire CSV datasets in one run. Automatic summary generation with fake vs real counts and percentage breakdowns.</p>
+                        <div class="feature-glow"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PAGE 2: MODELS -->
+        <div class="page" id="page-2">
+            <section class="section-models">
+                <div class="section-header">
+                    <span class="section-tag glass-pill">Architecture</span>
+                    <h2 class="section-title">ML <span class="accent">Models</span></h2>
+                    <p class="section-subtitle">Four robust classifiers working in ensemble</p>
+                </div>
+                <div class="models-container">
+                    <div class="model-card glass-card-strong" data-model="lr">
+                        <div class="model-header">
+                            <div class="model-num">01</div>
+                            <div class="model-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg></div>
+                        </div>
+                        <h3>Logistic Regression</h3>
+                        <p>Linear classifier with L2 regularization. Excellent baseline performance with probability calibration for confidence scores.</p>
+                        <div class="model-specs">
+                            <div class="spec"><span class="spec-label">Max Iter</span><span class="spec-val">3000</span></div>
+                            <div class="spec"><span class="spec-label">C</span><span class="spec-val">1.0</span></div>
+                            <div class="spec"><span class="spec-label">Class Weight</span><span class="spec-val">Balanced</span></div>
+                        </div>
+                        <div class="model-bar"><div class="model-bar-fill" style="--width: 92%"></div></div>
+                        <div class="model-footer"><span class="model-acc">92.1% Acc</span><span class="model-cv">CV: 89.4%</span></div>
+                    </div>
+                    <div class="model-card glass-card-strong" data-model="rf">
+                        <div class="model-header">
+                            <div class="model-num">02</div>
+                            <div class="model-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 22v-8M12 14V2M12 14l-4-4M12 14l4-4"/><circle cx="12" cy="14" r="2"/></svg></div>
+                        </div>
+                        <h3>Random Forest</h3>
+                        <p>Ensemble of 300 decision trees with max depth 15. Handles non-linear patterns and provides feature importance rankings.</p>
+                        <div class="model-specs">
+                            <div class="spec"><span class="spec-label">Estimators</span><span class="spec-val">300</span></div>
+                            <div class="spec"><span class="spec-label">Max Depth</span><span class="spec-val">15</span></div>
+                            <div class="spec"><span class="spec-label">Class Weight</span><span class="spec-val">Balanced</span></div>
+                        </div>
+                        <div class="model-bar"><div class="model-bar-fill" style="--width: 96%"></div></div>
+                        <div class="model-footer"><span class="model-acc">95.8% Acc</span><span class="model-cv">CV: 93.2%</span></div>
+                    </div>
+                    <div class="model-card glass-card-strong" data-model="svm">
+                        <div class="model-header">
+                            <div class="model-num">03</div>
+                            <div class="model-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M2 12h20M2 12l5-5M2 12l5 5M22 12l-5-5M22 12l-5 5"/><circle cx="12" cy="12" r="3"/></svg></div>
+                        </div>
+                        <h3>Support Vector Machine</h3>
+                        <p>RBF kernel SVM with probability support. Excellent for high-dimensional TF-IDF spaces with robust margin maximization.</p>
+                        <div class="model-specs">
+                            <div class="spec"><span class="spec-label">Kernel</span><span class="spec-val">RBF</span></div>
+                            <div class="spec"><span class="spec-label">Probability</span><span class="spec-val">True</span></div>
+                            <div class="spec"><span class="spec-label">Class Weight</span><span class="spec-val">Balanced</span></div>
+                        </div>
+                        <div class="model-bar"><div class="model-bar-fill" style="--width: 94%"></div></div>
+                        <div class="model-footer"><span class="model-acc">93.7% Acc</span><span class="model-cv">CV: 91.1%</span></div>
+                    </div>
+                    <div class="model-card glass-card-strong" data-model="gb">
+                        <div class="model-header">
+                            <div class="model-num">04</div>
+                            <div class="model-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 20V10M12 20V4M6 20v-6"/><path d="M3 20h18"/></svg></div>
+                        </div>
+                        <h3>Gradient Boosting</h3>
+                        <p>Sequential ensemble of 200 weak learners. Corrects previous errors iteratively for superior predictive performance.</p>
+                        <div class="model-specs">
+                            <div class="spec"><span class="spec-label">Estimators</span><span class="spec-val">200</span></div>
+                            <div class="spec"><span class="spec-label">Max Depth</span><span class="spec-val">3</span></div>
+                            <div class="spec"><span class="spec-label">Learning</span><span class="spec-val">0.1</span></div>
+                        </div>
+                        <div class="model-bar"><div class="model-bar-fill" style="--width: 98%"></div></div>
+                        <div class="model-footer"><span class="model-acc">97.5% Acc</span><span class="model-cv">CV: 95.8%</span></div>
+                    </div>
+                </div>
+                <div class="ensemble-banner glass-card">
+                    <div class="ensemble-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+                    <div class="ensemble-text">
+                        <h4>Ensemble Consensus</h4>
+                        <p>All four models vote on each prediction. Majority rules with confidence averaging and risk assessment (Low / Moderate / High / Critical).</p>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PAGE 3: LIVE DEMO -->
+        <div class="page" id="page-3">
+            <section class="section-demo">
+                <div class="section-header">
+                    <span class="section-tag glass-pill">Interactive</span>
+                    <h2 class="section-title">Live <span class="accent">Demo</span></h2>
+                    <p class="section-subtitle">Paste any news article and get instant AI analysis</p>
+                </div>
+                <div class="demo-layout">
+                    <div class="demo-input glass-card-strong">
+                        <div class="demo-tabs">
+                            <button class="demo-tab active" data-tab="paste">Paste Text</button>
+                            <button class="demo-tab" data-tab="sample">Sample Articles</button>
+                        </div>
+                        <div class="demo-tab-content active" id="tab-paste">
+                            <textarea id="demoText" placeholder="Paste a news article here to analyze...&#10;&#10;Example: BREAKING: Secret government documents leaked proving alien contact since 1950s..." rows="10"></textarea>
+                            <div class="demo-actions">
+                                <button class="btn btn-primary glass-btn-glow" id="analyzeBtn">
+                                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+                                    <span>Analyze Article</span>
+                                </button>
+                                <button class="btn btn-secondary glass-btn" id="clearBtn">Clear</button>
+                            </div>
+                        </div>
+                        <div class="demo-tab-content" id="tab-sample">
+                            <div class="sample-list">
+                                <div class="sample-item" data-text="BREAKING: Secret government documents leaked proving alien contact since 1950s. EXPOSED: Vaccines contain nano-trackers according to anonymous whistleblower. WARNING: New world order planning to ban cash next month.">
+                                    <div class="sample-badge fake">FAKE</div>
+                                    <p>Conspiracy article with sensational headlines and anonymous sources...</p>
+                                </div>
+                                <div class="sample-item" data-text="Federal Reserve announces quarter-point interest rate hike to combat inflation. Researchers publish peer-reviewed study on climate change impact on coral reefs. University study finds correlation between regular exercise and cognitive health.">
+                                    <div class="sample-badge real">REAL</div>
+                                    <p>Formal news with official sources, peer-reviewed studies, and measured tone...</p>
+                                </div>
+                                <div class="sample-item" data-text="SHOCKING: Famous celebrity faked death and now living in remote island bunker. MUST READ: Local mom discovers $50,000/week method working from phone. INCREDIBLE: Man finds fountain of youth in kitchen spice rack.">
+                                    <div class="sample-badge fake">FAKE</div>
+                                    <p>Clickbait content with emotional triggers and impossible claims...</p>
+                                </div>
+                                <div class="sample-item" data-text="Technology firm reports quarterly earnings showing steady revenue growth. Health department recommends updated booster for elderly populations. Agricultural department releases annual crop yield report showing stable production.">
+                                    <div class="sample-badge real">REAL</div>
+                                    <p>Government reports with statistics and formal departmental language...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="demo-results" id="demoResults">
+                        <div class="results-placeholder">
+                            <div class="rp-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><path d="M9 12h6M12 9v6M12 2a10 10 0 100 20 10 10 0 000-20z"/></svg></div>
+                            <p>Enter text and click Analyze to see results</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PAGE 4: METRICS -->
+        <div class="page" id="page-4">
+            <section class="section-metrics">
+                <div class="section-header">
+                    <span class="section-tag glass-pill">Performance</span>
+                    <h2 class="section-title">Model <span class="accent">Metrics</span></h2>
+                    <p class="section-subtitle">Comprehensive evaluation across all classifiers</p>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-card glass-card">
+                        <h4>Accuracy Comparison</h4>
+                        <canvas id="chartAccuracy"></canvas>
+                    </div>
+                    <div class="metric-card glass-card">
+                        <h4>ROC-AUC Scores</h4>
+                        <canvas id="chartRoc"></canvas>
+                    </div>
+                    <div class="metric-card glass-card wide">
+                        <h4>Confusion Matrix — Random Forest</h4>
+                        <div class="cm-visual">
+                            <div class="cm-cell tn"><span class="cm-val">12</span><span class="cm-label">TN<br>Real→Real</span></div>
+                            <div class="cm-cell fp"><span class="cm-val">1</span><span class="cm-label">FP<br>Real→Fake</span></div>
+                            <div class="cm-cell fn"><span class="cm-val">0</span><span class="cm-label">FN<br>Fake→Real</span></div>
+                            <div class="cm-cell tp"><span class="cm-val">11</span><span class="cm-label">TP<br>Fake→Fake</span></div>
+                        </div>
+                        <div class="cm-legend">
+                            <span><span class="dot tn-dot"></span> True Negative</span>
+                            <span><span class="dot fp-dot"></span> False Positive</span>
+                            <span><span class="dot fn-dot"></span> False Negative</span>
+                            <span><span class="dot tp-dot"></span> True Positive</span>
+                        </div>
+                    </div>
+                    <div class="metric-card glass-card">
+                        <h4>Training Time</h4>
+                        <canvas id="chartTime"></canvas>
+                    </div>
+                    <div class="metric-card glass-card">
+                        <h4>Feature Importance</h4>
+                        <div class="fi-list">
+                            <div class="fi-item"><span class="fi-name">sensational_score</span><div class="fi-bar"><div style="width:94%"></div></div><span>94%</span></div>
+                            <div class="fi-item"><span class="fi-name">subjectivity</span><div class="fi-bar"><div style="width:87%"></div></div><span>87%</span></div>
+                            <div class="fi-item"><span class="fi-name">caps_ratio</span><div class="fi-bar"><div style="width:72%"></div></div><span>72%</span></div>
+                            <div class="fi-item"><span class="fi-name">polarity</span><div class="fi-bar"><div style="width:68%"></div></div><span>68%</span></div>
+                            <div class="fi-item"><span class="fi-name">lexical_diversity</span><div class="fi-bar"><div style="width:61%"></div></div><span>61%</span></div>
+                            <div class="fi-item"><span class="fi-name">emotional_score</span><div class="fi-bar"><div style="width:55%"></div></div><span>55%</span></div>
+                            <div class="fi-item"><span class="fi-name">credibility_score</span><div class="fi-bar"><div style="width:49%"></div></div><span>49%</span></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- PAGE 5: ABOUT -->
+        <div class="page" id="page-5">
+            <section class="section-about">
+                <div class="section-header">
+                    <span class="section-tag glass-pill">Project</span>
+                    <h2 class="section-title">About <span class="accent">NLP-Python</span></h2>
+                    <p class="section-subtitle">Real-World Ready NLP Toolkit</p>
+                </div>
+                <div class="about-layout">
+                    <div class="about-card glass-card-strong author-card">
+                        <div class="author-avatar">
+                            <div class="avatar-ring"></div>
+                            <img src="pict.jpg" alt="Ussu" class="avatar-img" onerror="this.style.display='none';this.parentElement.querySelector('.avatar-fallback').style.display='flex';">
+                            <span class="avatar-fallback">U</span>
+                        </div>
+                        <h3>Ussu</h3>
+                        <p class="author-role">Creator & Developer</p>
+                        <p class="author-bio">Building advanced NLP security toolkits with real-world applications. Passionate about machine learning, cybersecurity, and open-source software.</p>
+                        <div class="author-links">
+                            <a href="https://github.com/issu321" target="_blank" class="author-link glass-btn">
+                                <svg viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                                <span>issu321</span>
+                            </a>
+                            <a href="https://github.com/issu321/NLP-Python" target="_blank" class="author-link glass-btn">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+                                <span>NLP-Python</span>
+                            </a>
+                        </div>
+                    </div>
+                    <div class="about-info">
+                        <div class="info-card glass-card">
+                            <h4>Tech Stack</h4>
+                            <div class="tech-grid">
+                                <div class="tech-item"><span class="tech-dot" style="--color:#3776ab"></span>Python 3.10+</div>
+                                <div class="tech-item"><span class="tech-dot" style="--color:#f7931e"></span>scikit-learn</div>
+                                <div class="tech-item"><span class="tech-dot" style="--color:#150458"></span>pandas</div>
+                                <div class="tech-item"><span class="tech-dot" style="--color:#013243"></span>numpy</div>
+                                <div class="tech-item"><span class="tech-dot" style="--color:#e64626"></span>matplotlib</div>
+                                <div class="tech-item"><span class="tech-dot" style="--color:#1f77b4"></span>seaborn</div>
+                            </div>
+                        </div>
+                        <div class="info-card glass-card">
+                            <h4>Project Stats</h4>
+                            <div class="stats-list">
+                                <div class="stats-row"><span>Version</span><span class="accent">5.0.0 Visual Enhanced</span></div>
+                                <div class="stats-row"><span>License</span><span>MIT</span></div>
+                                <div class="stats-row"><span>Lines of Code</span><span>1200+</span></div>
+                                <div class="stats-row"><span>Models</span><span>4 Classifiers</span></div>
+                                <div class="stats-row"><span>Features</span><span>TF-IDF + 18 Linguistic</span></div>
+                                <div class="stats-row"><span>Validation</span><span>3-Fold CV + Hold-out</span></div>
+                            </div>
+                        </div>
+                        <div class="info-card glass-card">
+                            <h4>Quick Start</h4>
+                            <div class="code-block">
+                                <code>git clone https://github.com/issu321/NLP-Python.git</code>
+                                <code>cd NLP-Python && pip install -r requirements.txt</code>
+                                <code>python app.py</code>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <!-- Floating Page Navigation -->
+    <div class="page-nav" id="pageNav">
+        <button class="nav-arrow" id="prevPage" aria-label="Previous page">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 12H5M12 19l-7-7 7-7"/></svg>
+        </button>
+        <div class="page-dots" id="pageDots">
+            <span class="dot active" data-page="0"></span>
+            <span class="dot" data-page="1"></span>
+            <span class="dot" data-page="2"></span>
+            <span class="dot" data-page="3"></span>
+            <span class="dot" data-page="4"></span>
+            <span class="dot" data-page="5"></span>
+        </div>
+        <button class="nav-arrow" id="nextPage" aria-label="Next page">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+        </button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="main-footer">
+        <p>Made with <span class="heart">❤</span> by <a href="https://github.com/issu321" target="_blank">Ussu</a> · <a href="https://github.com/issu321/NLP-Python" target="_blank">NLP-Python</a></p>
+        <p class="footer-copy">MIT License · 2026</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
